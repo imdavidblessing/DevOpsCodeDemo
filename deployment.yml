@@ -1,31 +1,37 @@
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: kubeserve
+    name: mydeploy
 spec:
   replicas: 3
+  strategy:
+    type: rollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 2
   selector:
-    matchLabels:
-      app: kubeserve
+     matchLabels:
+       image: tomcat
   template:
     metadata:
-      name: kubeserve
+      name: podd
       labels:
-        app: kubeserve
+        image: tomcat
     spec:
       containers:
-       - name: app
-         image: edu123/devopsimage:4
-        
+      - name: c1
+        image: imblessingdavid/tomcat:$BUILD_NUMBER  
+
 ---
-kind: Service
-apiVersion: v1
-metadata:
-   name: kubeserve-svc
+
+apiVersion: v1 
+kind: service 
+metadata: 
+  name: mysvc 
 spec:
-  type: NodePort
-  ports:
-    - port: 80
-      targetPort: 80
   selector: 
-    app: kubeserve
+     image: tomcat 
+  type: NodePort
+  ports: 
+  - port: 8080
+    targetPort: 8080
