@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: c1
-        image: imblessingdavid/tomcat:$BUILD_NUMBER  
+        image: imblessingdavid/tomcat:17 
 
 ---
 
